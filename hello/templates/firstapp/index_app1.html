@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Привет Django!</title>
+</head>
+<body>
+<!--<h1>{{header}}</h1>-->
+<!--<p>{{message}}</p>-->
+
+<!--<h1>{{ header }}</h1>-->
+<!--{% for lang in list_langs %}-->
+<!--<li>{{ lang }}</li>-->
+<!--{% endfor %}-->
+
+<!--<h1>{{ header }}</h1>-->
+<!--<p>Номер: {{ num }}</p>-->
+<!--{% if num == 1 %}-->
+<!--<p>{{ var1 }}</p>-->
+<!--{% else %}-->
+<!--<p>{{ var2 }}</p>-->
+<!--{% endif %}-->
+
+<h1>{{ header }}</h1>
+<li>{{ num|add:"2" }}</li>
+<li>{{ value_date|date:"D d M Y" }}</li>
+<li>{{ value_time|time:"H:i" }}</li>
+<li>{{ value_title|title }}</li>
+<li>{{ value_upper|upper }}</li>
+
+
+</body>
+</html>

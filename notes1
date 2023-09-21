@@ -1,0 +1,12 @@
+pip install django-bootstrap-v5
+
+В файле settings.py в переменную INSTALLED _ APPS добавить строку INSTALLED APPS
+"Ьootstrap5",
+
+В шаблонах загрузить библиотеку bootstrap5 с использованием следующего тега:
+{% load bootstrapS %}
+
+/  или ппросто загурзить в статитку файлы с сайта бутика https://getbootstrap.com/docs/5.2/getting-started/download/
+
+
+
