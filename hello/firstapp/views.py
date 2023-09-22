@@ -9,68 +9,15 @@ from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpRespons
     HttpResponseForbidden
 from django.template.response import TemplateResponse
 import datetime
+from .forms import UserForm
+
+
 
 
 def index(request):
-    return render(request, "firstapp/index.html")
-
-
-# def index(request):
-#     header = "Фильтры в шаблонах"
-#     value_num = 2
-#     value_date = datetime.date
-#     value_time = datetime.time
-#     value_title = "это пример использования фильтров"
-#     value_upper = "это строка в верхнем регистре"
-#     data = {
-#         "header": header,
-#         "value_num": value_num,
-#         "value_date": value_date,
-#         "value_time": value_time,
-#         "value_title": value_title,
-#         "value_upper": value_upper,
-#     }
-#     return TemplateResponse(request, "firstapp/index_app1.html", data)
-
-# header = "Разветвления в шаблонах"
-# num = 4
-# var1 = "Это nервая ветка в инструкции if"
-# var2 = "Это вторая ветка в инструкции if"
-# data = {"header": header, "num": num, "varl": var1, "var2": var2}
-# return TemplateResponse(request, "firstapp/index_app1.html", data)
-
-# header = "Иностранные языки"  # символьная переменная
-# list_langs = ["Английский", "Немецкий", "Испанский",
-#               "Французский", "Итальянский"]  # список
-# data = {"header": header, "list_langs": list_langs}
-# return TemplateResponse(request, "firstapp/index_app1.html", data)
-
-# header = "Персональные данные"  # символьная переменная
-# langs = ["Английский", "Немецкий", "Испанский"]  # список
-# user = {"name": "Максим, ", "age": 30}  # словарь
-# addr = ("Виноградная", 23, 45)  # кортеж
-# data = {"header": header, "langs": langs, "user": user, "address": addr}
-# return render(request, "index.html", context=data)
-
-
-# def index(request):
-#    header = "Персональные данные"
-#    langs = ["Английский", "Немецкий", "Испанский"]
-#    user = {"пате": "Максим,", "age": 30}
-#    addr = ("Виноградная", 23, 45)
-#    data = {"header": header, "langs": langs, "user": user, "address": addr}
-#    return TemplateResponse(request, "index.html", data)
-
-
-# data = {
-#     "header": "Передача параметров в шаблон Django",
-#     "message": "Загружен шаблон templates/firstapp/index_app1.html"
-# }
-# return render(request, "firstapp/index_app1.html", context=data)
-
-# def index(request):
-#     return HttpResponse("<h2>Главная</h2>")
-
+    my_text = 'Изучаем формы Django'
+    context = {'my_text': my_text}
+    return render(request, "firstapp/index.html", context)
 
 def about(request):
     return render(request, "firstapp/about.html")
@@ -82,6 +29,11 @@ def contact(request):
     # return HttpResponseRedirect("/about")
     # return HttpResponse("<h2>Koнтaкты</h2>")
 
+
+def my_form(request):
+    my_form = UserForm()
+    context = {"form": my_form}
+    return render(request, "firstapp/my_form.html", context)
 
 def products(request, productid=1):
     category = request.GET.get("cat", "Не задано")

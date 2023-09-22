@@ -1,0 +1,14 @@
+{% extends "firstapp/base.html" %}
+
+{% block title %}Формы{% endblock title %}
+{% block header %}Изучаем формы Django{% endblock header %}
+{% block content %}
+<div class="container-fluid text-start my-2 border border-3">
+    <form method="post" class="mx-auto">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+</div>
+
+{% endblock content %}

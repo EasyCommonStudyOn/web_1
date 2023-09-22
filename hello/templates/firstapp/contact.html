@@ -2,11 +2,21 @@
 {% block title %}Контакты{% endblock title %}
 {% block header %}Контактные данные.{% endblock header %}
 {% block content %}
-Компания "Интеллектуальные информационные системы".
-Адрес: г. Москва, ул. Короленко, д. 24
-тел.: +7 999 999 99
-e-mail: iis@yandex.ru
-Это содержимое блока content. Этот текст находится
-на странице contact.html, но он вставлен в базовый
-шаблон - base.html, в блок с именем context.
+<div class="container-fluid text-center my-2 border border-3">
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Адрес</h2>
+            <p>г. Москва, ул. Короленко, д. 24</p>
+        </div>
+        <div class="col-sm-3">
+            <h2>Телефон</h2>
+            <p>+7 999 999 99</p>
+        </div>
+        <div class="col-sm-3">
+            <h2>e-mail</h2>
+            <p>iis@yandex.ru</p>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}
