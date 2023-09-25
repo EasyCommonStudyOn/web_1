@@ -3,12 +3,102 @@
 {% block title %}Формы{% endblock title %}
 {% block header %}Изучаем формы Django{% endblock header %}
 {% block content %}
-<div class="container-fluid text-start my-2 border border-3">
-    <form method="post" class="mx-auto">
+
+<div class="container-fluid text-start my-2 border border-5 border-warning">
+    <h1>Стилизация группы полей</h1>
+    <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Отправить</button>
+        <div class="form-group my-2">
+            {% for field in form %}
+            <div>{{ field.label_tag }}</div>
+            <div>{{ field }}</div>
+            <div class="error">{{ field.errors }}</div>
+            {% endfor %}
+        </div>
+        <input type="submit" value="Отправить">
     </form>
 </div>
+
+<!--<div class="container-fluid text-start my-2 border border-3">-->
+<!--    <h5>Форма как таблица</h5>-->
+<!--    <form method="POST" novalidate>-->
+<!--        {% csrf_token %}-->
+<!--        <table>-->
+<!--            {{ form.as_table }}-->
+<!--        </table>-->
+<!--        <input type="submit" value="Отправить">-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--<style>-->
+<!--    /*.alert {*/-->
+<!--    /*    color: red*/-->
+<!--    /*}*/-->
+
+<!--    /*.form-group {*/-->
+<!--    /*    margin: 20px*/-->
+<!--    /*}*/-->
+
+<!--    /*.form-group input {*/-->
+<!--    /*    width: 250px;*/-->
+<!--    /*    height: 25px;*/-->
+<!--    /*    border-radius: 10px;*/-->
+<!--    /*}*/-->
+
+<!--    .field{font-weight: bold;color: darkblue}-->
+<!--    .error{color: red}-->
+<!--</style>-->
+<!--<div class="container-fluid text-start my-2 border border-5 border-warning">-->
+<!--    <h5>Валидация группы полей</h5>-->
+<!--    <form method="POST" novalidate>-->
+<!--        {% csrf_token %}-->
+<!--        <div class="form-group my-2">-->
+<!--            {% for field in form %}-->
+<!--            <div>{{field.label_tag}}</div>-->
+<!--            <div>{{field}}</div>-->
+<!--            <div class="error">{{field.errors}}</div>-->
+<!--&lt;!&ndash;            <div style="color: blue">{{field.help_text}}</div>&ndash;&gt;-->
+<!--&lt;!&ndash;            {% for error in field.errors %}&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="alert alert-danger">{{error}}</div>&ndash;&gt;-->
+<!--&lt;!&ndash;            {% endfor %}&ndash;&gt;-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--        <input type="submit" value="Отправить">-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--&lt;!&ndash;□ margin:20px -отступы;&ndash;&gt;-->
+<!--&lt;!&ndash;□ wictth:250px-шиpинa рамок полей;&ndash;&gt;-->
+<!--&lt;!&ndash;□ height: 25рх -высота рамок полей;&ndash;&gt;-->
+<!--&lt;!&ndash;□ border-radius: l0px -радиус округления углов рамок полей.&ndash;&gt;-->
+<!--&lt;!&ndash;Далее задан стиль контейнера Bootstrap:&ndash;&gt;-->
+<!--&lt;!&ndash;□ text-start -прижимать текст в контейнере к левому краю;&ndash;&gt;-->
+<!--&lt;!&ndash;□ my-2- вертикальные отступы между элементами контейнера 2 пункта;&ndash;&gt;-->
+<!--&lt;!&ndash;□ border border-5 - ширина рамки контейнера 5 пунктов;&ndash;&gt;-->
+<!--&lt;!&ndash;□. border-warning-цвет рамки контейнера (warning).&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;<div class="container-fluid text-start my-2 border border-3">&ndash;&gt;-->
+<!--&lt;!&ndash;    <h5>Форма как список</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;    <form method="POST">&ndash;&gt;-->
+<!--&lt;!&ndash;        {% csrf_token %}&ndash;&gt;-->
+<!--&lt;!&ndash;        <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;            {{ form.as_ul }}&ndash;&gt;-->
+<!--&lt;!&ndash;        </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;        <input type="submit" value="Отправить">&ndash;&gt;-->
+<!--&lt;!&ndash;    </form>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<div class="container-fluid text-start my-2 border border-3">&ndash;&gt;-->
+<!--&lt;!&ndash;    <h5>Форма как абзац</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;    <form method="POST">&ndash;&gt;-->
+<!--&lt;!&ndash;        {% csrf_token %}&ndash;&gt;-->
+<!--&lt;!&ndash;        <p>&ndash;&gt;-->
+<!--&lt;!&ndash;            {{ form.as_p }}&ndash;&gt;-->
+<!--&lt;!&ndash;        </p>&ndash;&gt;-->
+<!--&lt;!&ndash;        <input type="submit" value="Отправить">&ndash;&gt;-->
+<!--&lt;!&ndash;    </form>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
 
 {% endblock content %}

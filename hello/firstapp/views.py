@@ -12,12 +12,11 @@ import datetime
 from .forms import UserForm
 
 
-
-
 def index(request):
     my_text = 'Изучаем формы Django'
     context = {'my_text': my_text}
     return render(request, "firstapp/index.html", context)
+
 
 def about(request):
     return render(request, "firstapp/about.html")
@@ -29,11 +28,36 @@ def contact(request):
     # return HttpResponseRedirect("/about")
     # return HttpResponse("<h2>Koнтaкты</h2>")
 
-
 def my_form(request):
-    my_form = UserForm()
-    context = {"form": my_form}
-    return render(request, "firstapp/my_form.html", context)
+    if request.method == "POST":
+        user_form = UserForm(request.POST)
+        if user_form.is_valid():
+            name = user_form.cleaned_data.get("name")  # Get the cleaned data for 'name' field
+            age = user_form.cleaned_data.get("age")  # Get the cleaned data for 'age' field
+            output = "<h2>Пользователь</h2><h3>Имя - {}, Возраст - {}</h3>".format(name, age)
+            return HttpResponse(output)
+    else:
+        user_form = UserForm()
+    return render(request, "firstapp/my_form.html", {"form": user_form})
+
+# def my_form(request):
+#     if request.method == 'POST':
+#         userform = UserForm(request.POST)  # Если выполняется РОSТ-запрос, то вначале происходит заполнение формы пришедшими данными:
+#         if userform.is_valid(): #Потом с помощью метода is valid () проверяется их корректность:
+#             name = userform.cleaned_data["name"] #Если данные введены корректно, то через объект cleaned data в переменную name заносимвведенное пользователем значение и формируем ответную страницу с сообщением,что данные корректны:
+#             return HttpResponse("<h2>Имя введено корректно - {}</h2>".format(name))
+#         else:
+#             return HttpResponse("Ошибка ввода данных") #Если данные введены некорректно, то формируем ответную страницу с сообщением обошибке:
+#     else:
+#         userform = UserForm() #Если РОSТ-запрос отсутствует, то просто происходит вызов пользовательской формы:
+#         return render(request, "firstapp/my_form.html", {"form": userform})
+
+
+# def my_form(request):
+#     my_form = UserForm()#field_order=["age", "name"]  вставив это в скобки поменяет порядок отображения полей
+#     context = {"form": my_form}
+#     return render(request, "firstapp/my_form.html", context)
+#
 
 def products(request, productid=1):
     category = request.GET.get("cat", "Не задано")

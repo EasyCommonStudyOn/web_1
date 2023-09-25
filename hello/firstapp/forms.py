@@ -1,12 +1,22 @@
+'''
+поля класса формы сопоставляются с элементами ввода ( <input>) НТМL-страницы
+'''
 from django import forms
 
 
 class UserForm(forms.Form):
-    name = forms.CharField(label="Имя клиента", max_length=15, help_text="ФИO не более 15 символов", initial="Bвeдитe ФИО")
-    age = forms.IntegerField(label="Возраст", initial=18)
+    name = forms.CharField(label="Имя клиента", max_length=15, help_text="ФИO не более 15 символов",
+                           initial="Bвeдитe ФИО")
+    age = forms.IntegerField(label="Возраст", help_text="Введите возраст", initial=18)
     comment = forms.CharField(
-        label="Комментарий", widget=forms.Textarea #Назначим для поля ввода комментариев другой виджет
+        label="Комментарий", widget=forms.Textarea  # Назначим для поля ввода комментариев другой виджет
     )
+    email = forms.EmailField(label="Электронный адрес")
+    reklama = forms.BooleanField(label="Согласны получать рекламу", required=False)
+    # field_order = ["age", "name"]
+
+    required_css_class = "field"
+    error_css_class = "error"
 
     # basket = forms.BooleanField(label="Пoлoжить товар в корзину", required=False)
     # ling = forms.ChoiceField(label="Bыбepитe язык", choices=((1, "Английский"),
@@ -103,3 +113,37 @@ class UserForm(forms.Form):
     #     )
     # )
     #
+
+
+'''
+fоrm.название_поля.nаmе-возвращает название поля;
+□ fоrm.название_поля.vаluе -возвращает значение поля, которое ему бьшо передано по
+умолчанию;
+□ form. название_ nоля. label - возвращает текст метки, которая генерируется рядом
+с полем;
+□ fоrm.название_поля.id_fоr_lаЬеl - возвращает id для поля, которое по умолчанию
+создается по схеме id имя_ поля;
+□ fоrm.название_поля.аutо_id-возвращает id для поля, которое по умолчанию создается
+по схеме id_имя_поля;
+□ fоrm.название_поля.lаЬеl_tаg -возвращает элемент laЬel, который представляет метку
+рядом с полем;
+□ fоrm.название_поля.hеlр_tехt -возвращает текст подсказки, ассоциированной с по-
+лем;
+□ tоrm.название
+_
+поля .еrrоrs -возвращает ошибки валидации, связанные с полем;
+□ form.нaзвaниe_пoля.css_classes -возвращает СSS-классы поля;
+□ form.нaзвaниe_пoля.as_hidden - генерирует для поля разметку в виде скрытого поля
+<input type="hidden">;
+□ form. название
+_
+поля. is hidden -возвращает True или False в зависимости от того, является
+ли поле скрытым;
+□ fоrm.название_поля.аs_tехt -генерирует для поля разметку в виде текстового поля
+<input type="text">;
+
+fоrm.название поля.аs textarea генерирует для поля разметку в виде <textarea>
+
+forrn.нaзвaниe_пoля.as_widget - возвращает виджет Django, который ассоциирован
+с полем.
+'''
