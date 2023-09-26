@@ -4,17 +4,70 @@
 # запроса пользователя в виде объекта request и генерируют некий ответ (response), который
 # затем отправляется пользователю в виде НТМL-страницы.
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect, HttpResponseBadRequest, \
-    HttpResponseForbidden
+    HttpResponseForbidden, HttpResponseNotFound
 from django.template.response import TemplateResponse
 import datetime
 from .forms import UserForm
+from .models import Person
+from .forms import ImageForm
+from .models import Image
+
+
+def form_up_img(request):
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+    my_text = 'Загруженные изображения'
+    my_img = Image.obj_img.all()
+    form = ImageForm()
+    context = {'my_text': my_text, "my_img": my_img, "form": form}
+    return render(request, 'firstapp/form_up_img.html', context)
+
+
+def delete_img(request, id):
+    try:
+        img = Image.obj_img.get(id=id)
+        img.delete()
+        return redirect('form_up_img')
+    except Image.DoesNotExist:
+        return HttpResponseNotFound("<h2>Объект не найден</h2>")
+
+
+def edit_form(request, id):
+    try:
+        person = Person.objects.get(id=id)  # Use 'objects' instead of 'object'
+
+        # If the user submits edited data
+        if request.method == "POST":
+            person.name = request.POST.get("name")
+            person.age = request.POST.get("age")
+            person.save()
+            return redirect('my_form')  # Redirect to the 'my_form' view
+
+        # If the user requests data for editing
+        data = {"person": person}
+        return render(request, "firstapp/edit_form.html", context=data)
+    except Person.DoesNotExist:
+        return HttpResponseNotFound("<h2>Объект не найден</h2>")
+
+
+
+def delete(request, id):
+    try:
+        person = Person.object.get(id=id)
+        person.delete()
+        return redirect('my_form')  # Redirect to the 'my_form' view
+    except Person.DoesNotExist:
+        return HttpResponseNotFound("<h2>Объект не найден</h2>")
 
 
 def index(request):
-    my_text = 'Изучаем формы Django'
-    context = {'my_text': my_text}
+    my_text = 'Изучаем модели Django'
+    people_kol = Person.objects.count()  # Use "objects" instead of "object_person"
+    context = {'my_text': my_text, "people_kol": people_kol}
     return render(request, "firstapp/index.html", context)
 
 
@@ -28,17 +81,51 @@ def contact(request):
     # return HttpResponseRedirect("/about")
     # return HttpResponse("<h2>Koнтaкты</h2>")
 
+
 def my_form(request):
     if request.method == "POST":
-        user_form = UserForm(request.POST)
-        if user_form.is_valid():
-            name = user_form.cleaned_data.get("name")  # Get the cleaned data for 'name' field
-            age = user_form.cleaned_data.get("age")  # Get the cleaned data for 'age' field
-            output = "<h2>Пользователь</h2><h3>Имя - {}, Возраст - {}</h3>".format(name, age)
-            return HttpResponse(output)
+        form = UserForm(request.POST)
+        if form.is_valid():
+            # Create a new Person object and save it to the database
+            person = Person(
+                name=form.cleaned_data['name'],
+                age=form.cleaned_data['age']
+            )
+            person.save()
+            return redirect('my_form')  # Redirect to a success page or another view
     else:
-        user_form = UserForm()
-    return render(request, "firstapp/my_form.html", {"form": user_form})
+        form = UserForm()
+
+    my_text = "Сведения о клиентах"
+    people = Person.objects.all()
+    context = {"my_text": my_text, "people": people, "form": form}
+    return render(request, "firstapp/my_form.html", context)
+
+
+# def my_form(request):
+#     if request.method == "POST":
+#         form = UserForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#     my_text = "Сведения о клиентах"
+#     people = Person.object_person.all()  # Assuming you have a Person model
+#     form = UserForm()  # Reinitialize the form
+#     context = {"my_text": my_text, "people": people, "form": form}
+#     return render(request, "firstapp/my_form.html", context)
+
+
+# def my_form(request):
+#     if request.method == "POST":
+#         user_form = UserForm(request.POST)
+#         if user_form.is_valid():
+#             name = user_form.cleaned_data.get("name")  # Get the cleaned data for 'name' field
+#             age = user_form.cleaned_data.get("age")  # Get the cleaned data for 'age' field
+#             output = "<h2>Пользователь</h2><h3>Имя - {}, Возраст - {}</h3>".format(name, age)
+#             return HttpResponse(output)
+#     else:
+#         user_form = UserForm()
+#     return render(request, "firstapp/my_form.html", {"form": user_form})
+
 
 # def my_form(request):
 #     if request.method == 'POST':

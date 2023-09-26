@@ -20,10 +20,23 @@
 <!--</div>-->
 
 
-<div class="container">
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="col text-center text-dark">-->
+<!--            <div>{{ my_text }}</div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="container-fluid my-2">
     <div class="row">
-        <div class="col text-center text-dark">
+        <div class="col text-center">
             <div>{{ my_text }}</div>
+            {% if people.count > 0 %}
+                <h5>
+                    Количество введенных пользователей - {{ people.count }}
+                </h5>
+            {% endif %}
         </div>
     </div>
 </div>
