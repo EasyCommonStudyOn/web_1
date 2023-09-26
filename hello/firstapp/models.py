@@ -40,10 +40,9 @@ class Person(models.Model):
     age = models.IntegerField(verbose_name="Boзpacт клиента")
     objects = models.Manager()  # This is the default manager - это интерфейс, через который для моделей Django предоставляютсяоперации запросов к базе данных.
 
-
-# Чтобы переименовать мanager для данного класса, можно воспользоваться, например,
-# следующей инструкцией:
-# objectperson = models.Manager()
+    # Чтобы переименовать мanager для данного класса, можно воспользоваться, например,
+    # следующей инструкцией:
+    # objectperson = models.Manager()
     object_person = models.Manager()
 
 
@@ -78,12 +77,45 @@ class Account(models.Model):
                                 primary_key=True)  # указьmает, что внешний ключ (через который идет связь с главной моделью) одновременно будет выступать и в роли первичного ключа и соответственно создавать отдельное поле для первичного ключа.
 
 
-
 class Image(models.Model):
     title = models.CharField(max_length=100, null=False, verbose_name="Описание изображения")
-    image = models.ImageField(upload_to='images', verbose_name="Файл с изображением", null=True, blank=True) #поле image_file может оставаться пустыми (null=Тrue, Ыank=Тrue).
+    image = models.ImageField(upload_to='images', verbose_name="Файл с изображением", null=True,
+                              blank=True)  # поле image_file может оставаться пустыми (null=Тrue, Ыank=Тrue).
 
-    obj_img = models.Manager() #менеджер для работы с объектами изображений в модели.
+    obj_img = models.Manager()  # менеджер для работы с объектами изображений в модели.
+
+    def __str__(self):
+        return self.title
+
+
+class File(models.Model):
+    title = models.CharField(max_length=100, verbose_name="Описание файла")
+    file = models.FileField(upload_to='files', verbose_name="Файл PDF", null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Файл PDF"
+
+
+class VideoFile(models.Model):
+    title = models.CharField(max_length=100, verbose_name="Описание файла")
+    file = models.FileField(upload_to='videos', verbose_name="Видеофайл", null=True, blank=True)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.title
+
+
+class AudioFile(models.Model):
+    title = models.CharField(max_length=100,
+                             verbose_name="Описание файла")
+    file = models.FileField(upload_to='audios',
+                            verbose_name="Аудиофайл",
+                            null=True, blank=True)
+    obj_audio = models.Manager()
 
     def __str__(self):
         return self.title

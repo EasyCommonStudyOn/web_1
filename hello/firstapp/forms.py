@@ -3,6 +3,11 @@
 '''
 from django import forms
 from .models import Image
+from .models import File
+from .models import VideoFile
+from .models import AudioFile
+
+
 
 
 class UserForm(forms.Form):
@@ -31,6 +36,26 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
         fields = '__all__'
+
+
+class FileForm(forms.ModelForm):
+    class Meta:
+        model = File
+        fields = '__all__'
+
+class VideoForm(forms.ModelForm):   #Здесь из моделей был импортирован класс VideoFile, затем в классе меtа на его основесозданы объекты model и fields (поля). В объект fields будут загружены все поля измодели VideoFile.
+    class Meta:
+        model = VideoFile
+        fields = '__all__'
+
+
+class AudioForm(forms.ModelForm):
+    class Meta:
+        model = AudioFile
+        fields = '__all__'
+
+
+
 
 
 # basket = forms.BooleanField(label="Пoлoжить товар в корзину", required=False)

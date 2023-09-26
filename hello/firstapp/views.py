@@ -13,6 +13,12 @@ from .forms import UserForm
 from .models import Person
 from .forms import ImageForm
 from .models import Image
+from .forms import FileForm
+from .models import File
+from .models import VideoFile
+from .forms import VideoForm
+from .models import AudioFile
+from .forms import AudioForm
 
 
 def form_up_img(request):
@@ -36,6 +42,99 @@ def delete_img(request, id):
         return HttpResponseNotFound("<h2>Объект не найден</h2>")
 
 
+def form_up_pdf(request):
+    if request.method == 'POST':
+        form = FileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            my_text = 'Загруженные файлы'
+            form = FileForm()
+            file_obj = File.objects.all()
+            context = {'my_text': my_text, 'file_obj': file_obj, 'form': form}
+            return render(request, 'firstapp/form_up_pdf.html', context)
+    else:
+        form = FileForm()
+    return render(request, 'firstapp/form_up_pdf.html', {'form': form})
+
+
+def delete_pdf(request, id):
+    try:
+        pdf = File.objects.get(id=id)
+        pdf.delete()
+        return redirect('form_up_pdf')
+    except File.DoesNotExist:
+        return HttpResponseNotFound('<h2>Объект не найден</h2>')
+
+
+'''
+def form_up_video(request)
+В этой функции
+проверяется условие, поступил ли запрос от пользователя на загрузку видеофайла
+(if. request.method == 'POST'). Если такой запрос поступил, то на основе класса VideoForm
+создается объект foпn, который получает запрос от пользователя на сохранение данных
+о видеофайле (request.POsт), и сам загружаемый файл (request.FILES). Если форма не содержит
+ошибок, то вьmолняется сохранение введенных пользователем данных
+(form. save). После этого происходит обновление формы для загрузки видеофайлов.
+Если форма вызывается первый раз, т. е. поступил запрос GET, то создаются:
+□ текстовая переменная my text;
+□ объект foпn, который создается на основе класса victeoForm (т. е. сама форма);
+□ объект file_obj, который принимает из БД все сведения о загруженных файлах.
+Затем создается объект context, в который в виде словаря передаются объекты: my_text,
+file_obj, form. После этого вызывается шаблон form_up_video.html, в который передаются
+все данные через объект context.
+
+
+'''
+def form_up_video(request):
+    if request.method == 'POST':
+        form = VideoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            my_text = 'Загруженные видеофайлы'
+            form = VideoForm()
+            file_obj = VideoFile.objects.all()
+            context = {'my_text': my_text, 'file_obj': file_obj, 'form': form}
+            return render(request, 'firstapp/form_up_video.html', context)
+    else:
+        form = VideoForm()
+        file_obj = VideoFile.objects.all()
+        context = {'my_text': '', 'file_obj': file_obj, 'form': form}
+        return render(request, 'firstapp/form_up_video.html', context)
+
+
+def delete_video(request, id):
+    try:
+        video = VideoFile.objects.get(id=id)  # Corrected manager name to 'objects'
+        video.delete()
+        return redirect('form_up_video')
+    except VideoFile.DoesNotExist:  # Corrected model name to 'VideoFile'
+        return HttpResponseNotFound("<h2>Объект не найден</h2>")
+
+
+def form_up_audio(request):
+    if request.method == 'POST':
+        form = AudioForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            my_text = 'Загруженные аудиофайлы'
+            form = AudioForm()  # Reset the form for future uploads
+            file_obj = AudioFile.obj_audio.all()
+            context = {'my_text': my_text, "file_obj": file_obj, "form": form}
+            return render(request, 'firstapp/form_up_audio.html', context)
+    else:
+        form = AudioForm()  # Create a new empty form
+    return render(request, 'firstapp/form_up_audio.html', {'form': form})
+
+def delete_audio(request, id):
+    try:
+        audio = AudioFile.obj_audio.get(id=id)
+        audio.delete()
+        return redirect('form_up_audio')
+    except AudioFile.DoesNotExist:
+        return HttpResponseNotFound("<h2>Объект не найден</h2>")
+
+
+
 def edit_form(request, id):
     try:
         person = Person.objects.get(id=id)  # Use 'objects' instead of 'object'
@@ -52,7 +151,6 @@ def edit_form(request, id):
         return render(request, "firstapp/edit_form.html", context=data)
     except Person.DoesNotExist:
         return HttpResponseNotFound("<h2>Объект не найден</h2>")
-
 
 
 def delete(request, id):
